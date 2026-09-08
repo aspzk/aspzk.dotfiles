@@ -19,7 +19,7 @@
 hl.monitor({
     output   = "HDMI-A-1",
     mode     = "1440x900@60.00Hz",
-    position = "0x0",
+    position = "1920x0",
     scale    = "auto",
 })
 
@@ -27,7 +27,7 @@ hl.monitor({
 hl.monitor({
     output   = "DP-2",
     mode     = "1920x1080@120.003Hz",
-    position = "1440x0",
+    position = "0x0",
     scale    = "auto",
     vrr	     = true,
 })
@@ -41,7 +41,7 @@ local terminal    = "kitty"
 local fileManager = "thunar"
 local menu        = "rofi -show drun"
 local browser     = "firefox"
-local discord     = "discord-canary"
+local discord     = "discord"
 local whatsapp    = "zapzap"
 local steam       = "steam"
 
@@ -313,13 +313,11 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 
+-- Rofi Menus
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("~/.config/rofi/scripts/power.sh"))
 hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("~/.config/rofi/scripts/screenshot.sh"))
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("~/.config/rofi/scripts/menu.sh"))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("~/.local/bin/ES-DE.sh"))
-hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
 
 -- General Apps
 hl.bind(mainMod .. " + F1",  hl.dsp.exec_cmd(browser))
@@ -328,12 +326,17 @@ hl.bind(mainMod .. " + F3",  hl.dsp.exec_cmd(steam))
 hl.bind(mainMod .. " + F4",  hl.dsp.exec_cmd("kitty --class cliamp cliamp --provider plex"))
 hl.bind(mainMod .. " + F5",  hl.dsp.exec_cmd("kitty --class btop btop"))
 hl.bind(mainMod .. " + F6",  hl.dsp.exec_cmd(whatsapp))
-
 hl.bind(mainMod .. " + X",  hl.dsp.exec_cmd("heroic-run"))
+hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("/home/aspzk/sda/Jogos/GameRoms/ES-DE/ES-DE"))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("~/sda/Jogos/Scripts/sunshine"))
+
 -- Screenshot (grim + slurp, seleção de área, copia pro clipboard)
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(
     [[grim -g "$(slurp -d)" - | wl-copy && notify-send "Screenshot" "Copiado para a área de transferência"]]
 ))
+
+hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall -q waybar; waybar"))
 hl.bind(mainMod .. " + H", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
