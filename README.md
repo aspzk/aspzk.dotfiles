@@ -12,6 +12,7 @@ Here is a list of packages for using the dotfiles:
 - hyprpolkitagent;
 - swaylock;
 - playerctl;
+- foot;
 - awww;
 - dunst;
 - rofi;
