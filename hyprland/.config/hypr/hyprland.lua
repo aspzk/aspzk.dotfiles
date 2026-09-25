@@ -19,7 +19,7 @@
 hl.monitor({
     output   = "HDMI-A-1",
     mode     = "1440x900@60.00Hz",
-    position = "1920x0",
+    position = "0x0",
     scale    = "auto",
 })
 
@@ -27,7 +27,7 @@ hl.monitor({
 hl.monitor({
     output   = "DP-2",
     mode     = "1920x1080@120.003Hz",
-    position = "0x0",
+    position = "1440x0",
     scale    = "auto",
     vrr	     = true,
 })
@@ -37,7 +37,7 @@ hl.monitor({
 -- ===============
 
 -- Set programs that you use
-local terminal    = "kitty"
+local terminal    = "foot"
 local fileManager = "thunar"
 local menu        = "rofi -show drun"
 local browser     = "firefox"
@@ -80,7 +80,7 @@ hl.on("hyprland.start", function ()
 end)
 
 hl.on("hyprland.start", function ()
-  hl.exec_cmd("bash -c 'sleep 2 && flatpak run com.rtosta.zapzap'")
+  hl.exec_cmd("bash -c 'sleep 2 && zapzap'")
 end)
 
 hl.on("hyprland.start", function ()
@@ -323,11 +323,11 @@ hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("~/.config/rofi/scripts/menu.sh"))
 hl.bind(mainMod .. " + F1",  hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + F2",  hl.dsp.exec_cmd(discord))
 hl.bind(mainMod .. " + F3",  hl.dsp.exec_cmd(steam))
-hl.bind(mainMod .. " + F4",  hl.dsp.exec_cmd("kitty --class cliamp cliamp --provider plex"))
-hl.bind(mainMod .. " + F5",  hl.dsp.exec_cmd("kitty --class btop btop"))
+hl.bind(mainMod .. " + F4",  hl.dsp.exec_cmd("foot --app-id cliamp cliamp --provider plex"))
+hl.bind(mainMod .. " + F5",  hl.dsp.exec_cmd("foot --app-id btop btop"))
 hl.bind(mainMod .. " + F6",  hl.dsp.exec_cmd(whatsapp))
 hl.bind(mainMod .. " + X",  hl.dsp.exec_cmd("heroic-run"))
-hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("/home/aspzk/sda/Jogos/GameRoms/ES-DE/ES-DE"))
+hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("/home/aspzk/sda/Jogos/GameRoms/ES-DE/esde.sh"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("~/sda/Jogos/Scripts/sunshine"))
 
@@ -337,7 +337,7 @@ hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(
 ))
 
 hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall -q waybar; waybar"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall -q waybar; killall -q dunst; waybar & dunst"))
 hl.bind(mainMod .. " + H", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle" }))
@@ -444,6 +444,14 @@ hl.window_rule({
     match = { class = "^(steam)$", title = "^(Steam)$" },
 
     tile = true,
+})
+
+hl.window_rule({
+    name = "gamescope-fullscreen",
+    match = {
+        class = "^gamescope$",
+    },
+    fullscreen = true,
 })
 
 -- Firefox: a janela principal (título termina em "Mozilla Firefox") tila normal

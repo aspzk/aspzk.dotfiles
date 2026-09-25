@@ -9,7 +9,7 @@
     width                  = 520
     height                 = 400
     offset                 = 12x12
-    origin                 = bottom-left
+    origin                 = bottom-right
 
     padding                = 20
     horizontal_padding     = 20
