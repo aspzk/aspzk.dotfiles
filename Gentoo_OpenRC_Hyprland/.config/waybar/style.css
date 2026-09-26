@@ -1,17 +1,29 @@
 /* ==================== VARIÁVEIS DE COR ==================== */
-@define-color text-primary    #FFFFFF;    /* texto padrão dos módulos */
-@define-color bg-module       #000000;    /* fundo dos módulos e workspaces */
-@define-color accent-red      #ff6b6b;    /* vermelho: urgent, power */
-@define-color gray-muted      #292828;    /* cinza: foco, desabilitado, mutado */
-@define-color bg-hover        #212121;    /* fundo em hover */
-@define-color accent-green    #8cff8c;    /* verde: tocando, conectado */
-@define-color gray-border     #121212;    /* bordas e separadores sutis */
-@define-color bg-transparent  transparent; /* fundo transparente */
+/* Padrão: todo hex usado na bar deve estar aqui, nada solto no código */
+@define-color text-primary      #FFFFFF;    /* texto padrão dos módulos */
+@define-color text-dim          #aaaaaa;    /* logo, detalhe secundário */
+@define-color text-faded        #a0a0a0;    /* mpris pausado */
+@define-color bg-module         #000000;    /* fundo dos módulos e workspaces */
+@define-color bg-hover          #212121;    /* fundo em hover (padrão único) */
+@define-color bg-urgent         #4a2c2c;    /* fundo workspace urgente */
+@define-color bg-tooltip        #1a1a1a;    /* fundo do tooltip */
+@define-color bg-power-hover    #2a2a2a;    /* hover do botão power */
+@define-color accent-red        #ff6b6b;    /* vermelho: urgent, power */
+@define-color accent-red-bright #ff5555;    /* vermelho hover do power */
+@define-color accent-green      #8cff8c;    /* verde: tocando, conectado */
+@define-color gray-muted        #292828;    /* cinza: foco, desabilitado, mutado */
+@define-color gray-border       #121212;    /* bordas e separadores sutis */
+@define-color bg-transparent    transparent; /* fundo transparente */
+
+/* ==================== PADRÃO DOS MÓDULOS ==================== */
+/* padding: 0.3rem 0.6rem | margin: 0 | radius: 0 | borda: 2px */
+/* Exceções documentadas: #custom-power (padding/font próprios) */
+/* e .taskbar-window (padding/margin internos) */
 
 * {
   min-height: 0;
   min-width: 0;
-	  font-family: "IosevkaTerm Nerd Font", "Symbols Nerd Font Mono", "Noto Color Emoji", monospace;
+  font-family: "IosevkaTerm Nerd Font", "Symbols Nerd Font Mono", "Noto Color Emoji", monospace;
   font-size: 14px;
   font-weight: 700;
   box-shadow: none;
@@ -22,19 +34,34 @@
 window#waybar {
   transition-property: background-color;
 /*  transition-duration: 0.5s; */
-  background-color: @bg-transparent;      
+  background-color: @bg-transparent;
   color: @text-primary;
-
 }
 
-/* ==================== WORKSPACES  ==================== */
-#workspaces button {
+/* ==================== BASE COMUM: workspaces + todos os módulos ==================== */
+#workspaces button,
+#clock,
+#pulseaudio,
+#custom-logo,
+#custom-power,
+#custom-spotify,
+#custom-notification,
+#cpu,
+#tray,
+#memory,
+#window,
+#mpris,
+#bluetooth {
   padding: 0.3rem 0.6rem;
   margin: 0rem;
   border-radius: 0;
   background-color: @bg-module;
-	  border: 2px solid @bg-module;
   color: @text-primary;
+}
+
+/* ==================== WORKSPACES ==================== */
+#workspaces button {
+  border: 2px solid @bg-module;
 /*  transition: all 0.2s ease; */
 }
 
@@ -50,108 +77,66 @@ window#waybar {
   background-color: @bg-module;
   color: @text-primary;
   font-weight: 700;
-  border: 2px solid @gray-border;     /* Borda mais fina */
+  border: 2px solid @gray-border;
 }
 
 /* Workspace urgente */
 #workspaces button.urgent {
-  background-color: #4a2c2c;
+  background-color: @bg-urgent;
   color: @accent-red;
   border: 2px solid @accent-red;
 }
 
 /* ==================== FRAMES (janelas dentro do workspace) ==================== */
+/* Exceção ao padrão: padding/margin menores por ser elemento interno */
 #workspaces .taskbar-window {
   padding: 1px 3px;
   margin: 0 2px;
-  border-radius: 2px;
+  border-radius: 0;
   opacity: 0.75;
 }
 
-#workspaces .taskbar-window:hover {
-  opacity: 1;
-  background-color: @bg-hover;
-}
-
-/* Janela focada dentro do workspace */
+#workspaces .taskbar-window:hover,
 #workspaces .taskbar-window.active {
   opacity: 1;
   background-color: @bg-hover;
 }
 
-/* ==================== MÓDULOS GERAIS ==================== */
-#clock,
-#pulseaudio,
-#custom-logo,
-#custom-power,
-#custom-spotify,
-#custom-notification,
-#cpu,
-#tray,
-#memory,
-#window,
-#mpris {
-  padding: 0.3rem 0.6rem;
-  margin: 0rem;
-  border-radius: 1px;
-  background-color: @bg-module;        /* Mesmo cinza escuro dos workspaces */
-  color: @text-primary;
-}
-
-/* Estados especiais do MPRIS (música) */
+/* ==================== ESTADOS: MPRIS ==================== */
 #mpris.playing {
-  color: @accent-green;                   /* Verde suave quando tocando */
+  color: @accent-green;
 }
 
 #mpris.paused {
-  color: #a0a0a0;
+  color: @text-faded;
 }
 
-/* ==================== CORES ESPECÍFICAS POR MÓDULO ==================== */
-#cpu     { color: @text-primary; }        
-#memory  { color: @text-primary; }      
-#clock   { color:  @text-primary; } 
-#pulseaudio { color: @text-primary; }
-
-/* ==================== BLUETOOTH ==================== */
-#bluetooth {
-  padding: 0.3rem 0.6rem;
-  margin: 0rem;
-  border-radius: 1px;
-  background-color: @bg-module;
-  color: @text-primary;
-}
-
-/* Quando Bluetooth está ligado mas sem dispositivos */
-#bluetooth {
-  color: @text-primary;
-}
-
-/* Quando tem dispositivos conectados */
+/* ==================== ESTADOS: BLUETOOTH ==================== */
 #bluetooth.connected {
-  color: @accent-green;        /* Verde suave (igual ao mpris.playing) */
+  color: @accent-green;
 }
 
-/* Quando Bluetooth está desligado */
 #bluetooth.disabled,
 #bluetooth.off {
-  color: @gray-muted;        /* Cinza (igual ao pulseaudio.muted) */
+  color: @gray-muted;
 }
 
+/* ==================== ESTADOS: ÁUDIO / JANELA / LOGO / POWER ==================== */
 #pulseaudio.muted {
   color: @gray-muted;
 }
 
-#window {
-  color: @text-primary;
+#custom-logo {
+  color: @text-dim;
 }
 
-#custom-logo  { color: #aaaaaa; }
-#custom-power { color: @accent-red; }   /* Vermelho suave para desligar */
+#custom-power {
+  color: @accent-red;
+}
 
 /* Tooltip */
 tooltip {
-  background-color: #1a1a1a;
+  background-color: @bg-tooltip;
   border: 2px solid @gray-border;
   color: @text-primary;
 }
@@ -166,18 +151,15 @@ window#waybar.empty #window {
   background-color: @bg-transparent;
 }
 
-/* ==================== CUSTOM POWER ==================== */
+/* ==================== CUSTOM POWER (exceção ao padrão) ==================== */
 #custom-power {
   padding: 0.20rem 0.35rem 0.20rem 0.10rem;   /* cima, direita, baixo, esquerda */
-  margin: 0rem;                               /* sem margem em nenhum lado */
-  border-radius: 1px;
-  background-color: @bg-module;
-  color: @accent-red;
   font-size: 15px;
   font-weight: 900;
   min-width: 36px;
 }
+
 #custom-power:hover {
-  background-color: #2a2a2a;
-  color: #ff5555;
+  background-color: @bg-power-hover;
+  color: @accent-red-bright;
 }

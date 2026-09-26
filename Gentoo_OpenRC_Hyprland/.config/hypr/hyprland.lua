@@ -42,7 +42,7 @@ local fileManager = "thunar"
 local menu        = "rofi -show drun"
 local browser     = "firefox"
 local discord     = "discord"
-local whatsapp    = "zapzap"
+local whatsapp    = "flatpak run com.rtosta.zapzap"
 local steam       = "steam"
 
 -- ===============
@@ -80,7 +80,7 @@ hl.on("hyprland.start", function ()
 end)
 
 hl.on("hyprland.start", function ()
-  hl.exec_cmd("bash -c 'sleep 2 && zapzap'")
+  hl.exec_cmd("bash -c 'sleep 2 && flatpak run com.rtosta.zapzap'")
 end)
 
 hl.on("hyprland.start", function ()
