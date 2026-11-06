@@ -10,7 +10,7 @@
 @define-color bg-power-hover    #2a2a2a;    /* hover do botão power */
 @define-color accent-red        #ff6b6b;    /* vermelho: urgent, power */
 @define-color accent-red-bright #ff5555;    /* vermelho hover do power */
-@define-color accent-green      #8cff8c;    /* verde: tocando, conectado */
+@define-color accent-green      #8cff8c;    /* verde: conectado */
 @define-color gray-muted        #292828;    /* cinza: foco, desabilitado, mutado */
 @define-color gray-border       #121212;    /* bordas e separadores sutis */
 @define-color bg-transparent    transparent; /* fundo transparente */
@@ -104,7 +104,7 @@ window#waybar {
 
 /* ==================== ESTADOS: MPRIS ==================== */
 #mpris.playing {
-  color: @accent-green;
+  color: @text-primary;
 }
 
 #mpris.paused {

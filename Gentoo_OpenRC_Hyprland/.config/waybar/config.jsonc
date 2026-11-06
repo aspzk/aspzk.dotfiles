@@ -1,6 +1,8 @@
 {
   "layer": "bottom",
   "position": "bottom",
+  // só nos físicos: barra no virtual sairia dentro do stream do Sunshine
+  "output": ["DP-2", "HDMI-A-1"],
   "height": 10,
   "spacing": 0,
   "exclusive": true,
@@ -11,6 +13,7 @@
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-right": [
     "custom/notification",
+    "mpris",
     "cpu",
     "memory",
     "bluetooth",
@@ -47,6 +50,29 @@
   "tray": {
     "show-passive-items": true,
     "spacing": 10
+  },
+
+  // ==================== MPRIS (player de mídia) ====================
+  // Sem "player": usa o padrão (playerctld), seguindo o player ativo.
+  // Firefox ignorado: some do módulo mesmo quando é o player mais recente.
+  "mpris": {
+    // dois espaços: o glifo da nota tem avanço curto e "cola" no texto
+    "format": "{player_icon}  {dynamic}",
+    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "ignored-players": ["firefox"],
+    "dynamic-order": ["artist", "title"],
+    "artist-len": 25,
+    "title-len": 40,
+    "player-icons": {
+      "default": "",
+      "firefox": "",
+      "spotify": ""
+    },
+    "status-icons": {
+      "playing": "",
+      "paused": ""
+    },
+    "tooltip-format": "{player} ({status})\n{title}\n{artist}"
   },
 
   // ==================== RELÓGIO COMPLETO (com calendário) ====================

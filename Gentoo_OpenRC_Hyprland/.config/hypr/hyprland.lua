@@ -32,6 +32,40 @@ hl.monitor({
     vrr	     = true,
 })
 
+-- MONITOR VIRTUAL SUNSHINE (sempre ligado) |
+-- ============================================
+-- Fica SEMPRE ativo num modo placeholder (1920x1080). O prep-cmd ajusta
+-- pra resolução do cliente a cada sessão. Motivo: o Sunshine resolve o
+-- `output_name` também no handshake (lista de apps), e com o VIRT desligado
+-- o Moonlight-qt da TV falha com "Malformed XML". Custo de GPU em idle é mínimo.
+hl.monitor({
+    output   = "SUNSHINE-VIRT",
+    mode     = "1920x1080@60",
+    position = "auto",
+    scale    = 1,
+})
+
+-- Mantidos por compatibilidade (podem ser removidos depois)
+hl.monitor({
+    output   = "SUNSHINE-TV",
+    mode     = "3840x2160@60",
+    position = "auto",
+    scale    = 1,
+    disabled = true,
+})
+
+hl.monitor({
+    output   = "SUNSHINE-FONE",
+    mode     = "2560x1080@60",
+    position = "auto",
+    scale    = 1,
+    disabled = true,
+})
+
+-- Workspace dedicado do virtual (jogo abre aqui, foco vai pra cá no prep)
+hl.workspace_rule({ workspace = "11", monitor = "SUNSHINE-VIRT" })
+hl.workspace_rule({ workspace = "12", monitor = "SUNSHINE-FONE" })
+
 -- ===============
 -- | MY PROGRAMS |
 -- ===============
@@ -94,6 +128,12 @@ end)
 hl.on("hyprland.start", function ()
   hl.exec_cmd("bash -c 'sleep 5 && gsr-ui'")
 end)
+
+-- NOTA: os outputs virtuais do Sunshine NÃO são criados no boot de propósito.
+-- O ciclo de vida é amarrado no script de toggle (SUPER+C):
+-- ligar cria+habilita o SUNSHINE-VIRT, desligar remove tudo.
+-- Se criasse aqui, o mouse vazaria pra área invisível com o Sunshine parado.
+
 -- ===========================
 -- == ENVIRONMENT VARIABLES ==
 -- ===========================
@@ -326,10 +366,12 @@ hl.bind(mainMod .. " + F3",  hl.dsp.exec_cmd(steam))
 hl.bind(mainMod .. " + F4",  hl.dsp.exec_cmd("foot --app-id cliamp cliamp --provider plex"))
 hl.bind(mainMod .. " + F5",  hl.dsp.exec_cmd("foot --app-id btop btop"))
 hl.bind(mainMod .. " + F6",  hl.dsp.exec_cmd(whatsapp))
-hl.bind(mainMod .. " + X",  hl.dsp.exec_cmd("heroic-run"))
+hl.bind(mainMod .. " + X",  hl.dsp.exec_cmd("gtk-launch heroic_games_launcher"))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("/home/aspzk/sda/Jogos/GameRoms/ES-DE/esde.sh"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("~/sda/Jogos/Scripts/sunshine"))
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("flatpak run com.plexamp.Plexamp"))
+--hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("~/sda/Jogos/Scripts/telas-voltar.sh"))
 
 -- Screenshot (grim + slurp, seleção de área, copia pro clipboard)
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(
