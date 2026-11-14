@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# foot-tmux — shell do foot: abre o tmux em "modo sessões agrupadas".
+#
+# Modelo:
+#   - a primeira janela do foot cria a sessão "main";
+#   - as seguintes entram no GRUPO de "main" -> sessões main-1, main-2, ...
+#     Sessões de um grupo compartilham a MESMA lista de janelas (abas), mas
+#     cada uma tem a sua própria janela atual.
+#
+# Resultado: todos os foots enxergam as mesmas abas (Ctrl+a 1..9, Ctrl+a c...),
+# porém abrir um terminal novo cria uma aba nova e cai nela SEM arrastar os
+# terminais que já estavam abertos.
+#
+# (Com uma sessão só isso não dá: no tmux a janela atual pertence à sessão, não
+# ao cliente — dois clientes da mesma sessão sempre mostram a mesma janela.)
+#
+# Debug: FOOT_TMUX_DRY_RUN=1 foot-tmux apenas imprime o comando que rodaria.
+
+set -u
+
+# Se o foot for aberto de dentro de um tmux, o TMUX herdado faria o tmux
+# recusar a criação ("sessions should be nested with care").
+unset TMUX TMUX_PANE
+
+tmux_bin=${FOOT_TMUX_BIN:-tmux}
+base=main
+dir=${PWD:-$HOME}
+
+exec_cmd() {
+    if [ -n "${FOOT_TMUX_DRY_RUN:-}" ]; then
+        printf '%s %s\n' "$tmux_bin" "$*"
+        exit 0
+    fi
+    exec "$tmux_bin" "$@"
+}
+
+if "$tmux_bin" has-session -t "=$base" 2>/dev/null; then
+    # Grupo já existe: entra nele e já abre a aba nova desta janela.
+    exec_cmd new-session -t "=$base" -c "$dir" \; new-window -c "$dir"
+fi
+
+exec_cmd new-session -s "$base" -c "$dir"

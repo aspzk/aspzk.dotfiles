@@ -13,6 +13,7 @@ Here is a list of packages for using the dotfiles:
 - swaylock;
 - playerctl;
 - foot;
+- tmux;
 - awww;
 - dunst;
 - rofi;
