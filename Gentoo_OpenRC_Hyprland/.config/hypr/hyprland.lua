@@ -72,7 +72,7 @@ hl.workspace_rule({ workspace = "12", monitor = "SUNSHINE-FONE" })
 
 -- Set programs that you use
 local terminal    = "foot"
-local fileManager = "thunar"
+local fileManager = "dolphin"
 local menu        = "rofi -show drun"
 local browser     = "firefox"
 local discord     = "discord"
@@ -111,6 +111,15 @@ end)
 
 hl.on("hyprland.start", function ()
   hl.exec_cmd("wl-paste --watch cliphist store")
+end)
+
+-- KDE Connect: daemon (transferência/notificações) + ícone na bandeja do waybar
+hl.on("hyprland.start", function ()
+  hl.exec_cmd("kdeconnectd")
+end)
+
+hl.on("hyprland.start", function ()
+  hl.exec_cmd("kdeconnect-indicator")
 end)
 
 hl.on("hyprland.start", function ()
@@ -379,7 +388,7 @@ hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(
 ))
 
 hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall -q waybar; killall -q dunst; waybar & dunst"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall -q waybar; killall -q dunst; waybar & dunst & mprisence; "))
 hl.bind(mainMod .. " + H", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle" }))
